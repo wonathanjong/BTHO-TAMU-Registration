@@ -58,7 +58,7 @@ if (!$("#kw_results_table").length) {
 	$("table").after(`<div style="text-align:center">
 							  <div class="loader" id='loader' ></div>
 							  <br>
-							  <h1 id="nextlabel"style="color: #FF9800;display:none;">Loading Courses</h1>
+							  <h1 id="nextlabel"style="color: #800000;display:none;">Loading Courses</h1>
 							  <h1 id="retrylabel"style="color: #F44336;display:none;">Failed to Load Courses</h1>
 							  <br>
 							  <button class=matbut id="retry" style="background: #F44336;display:none;">Retry</button>
@@ -532,7 +532,7 @@ function openDialog(dep, cls, sem, professor, res) {
 	if (status.includes("open")) {
 		color = "#4CAF50";
 	} else if (status.includes("waitlisted")) {
-		color = "#FF9800"
+		color = "#800000"
 	} else if (status.includes("closed") || status.includes("cancelled")) {
 		color = "#FF5722";
 	}

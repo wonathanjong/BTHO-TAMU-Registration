@@ -42,7 +42,7 @@ body {
 }
 
 .selected {
-    box-shadow: 0 0 0 1pt #FF9800;
+    box-shadow: 0 0 0 1pt #800000;
 }
 
 .settingsbut:focus:after:hover {
@@ -115,7 +115,7 @@ i {
     font-size: medium;
     font-style: bold;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    background: #ff9800;
+    background: #800000;
 }
 
 .matbut {
