@@ -13,19 +13,21 @@
     "*://*.registrar.utexas.edu/schedules/*",
     "*://*.login.utexas.edu/login/*",
     "*://*cas.tamu.edu/cas/login/*",
-    "*://*utdirect.utexas.edu/*"
+    "*://*utdirect.utexas.edu/*",
+    "*://*compass-ssb.tamu.edu/*",
+    "alarms"
   ],
   "content_scripts": [{
     "css": ["css/styles.css"],
     "js": ["js/moment.min.js", "js/sql-memory-growth.js", "js/highcharts.js", "js/jquery-3.3.1.min.js", "js/content.js"],
-    "matches": ["https://howdy.tamu.edu/uPortal/*", "https://utdirect.utexas.edu/*"]
+    "matches": ["https://howdy.tamu.edu/uPortal/*", "https://compass-ssb.tamu.edu/*", "https://utdirect.utexas.edu/*"]
   }, {
     "css": ["css/styles.css"],
     "js": ["js/moment.min.js", "js/sql-memory-growth.js", "js/highcharts.js", "js/jquery-3.3.1.min.js", "js/import.js"],
     "matches": ["https://utdirect.utexas.edu/registrar/waitlist/wl_see_my_waitlists.WBX", "https://utdirect.utexas.edu/registration/classlist.WBX*"]
   }],
   "web_accessible_resources": [
-    "grades.db", "images/disticon.png"
+    "grades.db", "images/disticon.png,", "tamu_grades.db"
   ],
   "background": {
     "scripts": ["js/background.js", "js/moment.min.js", "js/jquery-3.3.1.min.js"],

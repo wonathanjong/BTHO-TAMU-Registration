@@ -53,8 +53,19 @@ chrome.storage.sync.get('loadAll', function (data) {
 
 loadDataBase();
 //make heading and modal
-if (!$("#kw_results_table").length) {
-	$("table thead th:last-child").after('<th scope=col>Plus</th>');
+//!$("#kw_results_table").length
+
+//setInterval(addStuff, 3 * 1000);
+
+var stussy = document.getElementsByClassName("captiontext");
+console.log(stussy);
+console.log(stussy.innerHTML);
+
+if (stussy.length > 0) {
+	console.log(stussy[0]);
+	console.log("it gone work");
+	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
+	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
 	$("table").after(`<div style="text-align:center">
 							  <div class="loader" id='loader' ></div>
 							  <br>
@@ -63,6 +74,20 @@ if (!$("#kw_results_table").length) {
 							  <br>
 							  <button class=matbut id="retry" style="background: #F44336;display:none;">Retry</button>
 							  </div>`);
+	
+//									   <div id="topbuttons" class=topbuttons>
+//											   <button class=matbut id="rateMyProf" style="background: #4CAF50;"> RMP </button>
+//											   <button class=matbut id="eCIS" style="background: #CDDC39;"> eCIS </button>
+//											   <button class=matbut id="textbook" style="background: #FFC107;"> Textbook </button>
+//											   <button class=matbut id="Syllabi"> Past Syllabi </button>
+//											   <button class=matbut id="saveCourse" style="background: #F44336;"> Save Course +</button>
+//										</div>
+//	<div class=card>
+//									<div class=cardcontainer style="">
+//										<ul class=description id="description" style="list-style-type:disc"></ul>
+//									</div>
+//								</div>
+		
 	var modhtml = `<div class=modal id=myModal>
 							<div class=modal-content>
 							   <span class=close>×</span>
@@ -70,18 +95,6 @@ if (!$("#kw_results_table").length) {
 									<div class=cardcontainer>
 									   <h2 class=title id="title">Computer Fluency (C S 302)</h2>
 									   <h2 class=profname id="profname">with Bruce Porter</h2>
-									   <div id="topbuttons" class=topbuttons>
-											   <button class=matbut id="rateMyProf" style="background: #4CAF50;"> RMP </button>
-											   <button class=matbut id="eCIS" style="background: #CDDC39;"> eCIS </button>
-											   <button class=matbut id="textbook" style="background: #FFC107;"> Textbook </button>
-											   <button class=matbut id="Syllabi"> Past Syllabi </button>
-											   <button class=matbut id="saveCourse" style="background: #F44336;"> Save Course +</button>
-										</div>
-									</div>
-								</div>
-								<div class=card>
-									<div class=cardcontainer style="">
-										<ul class=description id="description" style="list-style-type:disc"></ul>
 									</div>
 								</div>
 								<div class=card style='text-align:center'>
@@ -93,13 +106,17 @@ if (!$("#kw_results_table").length) {
 								</div>
 							</div>
 						</div>`;
-	$("#container").prepend(modhtml);
+	
+	document.getElementsByClassName("headerwrapperdiv")[0].innerHTML += modhtml;
+	
 	$("#myModal").prepend("<div id='snackbar'>defaultmessage..</div>");
 	//go through all the rows in the list
 	$('table').find('tr').each(function () {
-		if (!($(this).find('td').hasClass("course_header")) && $(this).has('th').length == 0) {
+		if (($(this).find('td').hasClass("dddefault")) && $(this).has('th').length == 0) {
 			//if a course row, then add the extension button
-			$(this).append(`<td data-th="Plus"><input type="image" class="distButton" id="distButton" style="vertical-align: bottom; display:block;" width="20" height="20" src='${chrome.extension.getURL('images/disticon.png')}'/></td>`);
+			$(this).append('<td data-th="BTHO"><a id="distButton" >(Hacks)</a></td>');
+			$(this).append('<td data-th="BTHO"><a id="distButton" >(RMP)</a></td>');
+//			$(this).append(`<td data-th="Plus"><input type="image" href="#null" onclick="break;" class="distButton" id="distButton" style="vertical-align: bottom; display:block;" width="20" height="20" src='${chrome.extension.getURL('images/disticon.png')}'/></td>`);
 			// if ($(this).find('td[data-th="Status"]').text().includes('waitlisted')) {
 			// 	$(this).find('td').each(function () {
 			// 		$(this).css('background-color', '#E0E0E0');
@@ -107,25 +124,31 @@ if (!$("#kw_results_table").length) {
 			// }
 		}
 	});
+	console.log("stuff added");
 }
+
+
 //update the conflicts
-update(0);
+//update(0);
 /*Handle the button clicks*/
+
 $("tbody").on('click', '#distButton', function () {
+	console.log("clicked");
 	var row = $(this).closest('tr');
-	$('.modal-content').stop().animate({
+	$('.modal-content').animate({
 		scrollTop: 0
 	}, 500);
 	$(this).blur();
+//	$("#myModal").fadeIn(fadetime);
 	getCourseInfo(row);
 	getDistribution();
 });
 
-$(window).scroll(function () {
-	if ($(document).height() <= $(window).scrollTop() + $(window).height() + 150) {
-		loadNextPages();
-	}
-});
+//$(window).scroll(function () {
+//	if ($(document).height() <= $(window).scrollTop() + $(window).height() + 150) {
+//		loadNextPages();
+//	}
+//});
 
 $("#myModal").on('click', '#saveCourse', function () {
 	setTimeout(function () {
@@ -340,32 +363,62 @@ function Course(coursename, unique, profname, datetimearr, status, link, registe
 function getCourseInfo(row) {
 	console.log('WHAT');
 	semesterCode = new URL(window.location.href).pathname.split('/')[4];
-	$("h2.dateTimePlace").remove();
-	$('table').find('tr').each(function () {
-		if ($(this).find('td').hasClass("course_header")) {
-			coursename = $(this).find('td').text() + "";
-		}
+//	$("h2.dateTimePlace").remove();
+	
+//	console.log($('table.datadisplaytable'));
+	
+	$('table.datadisplaytable').find('tr').each(function () {
+		
+//		coursename = d.text() + "";
+		
+//		if ($(this).find('td').hasClass("course_header")) {
+//			coursename = $(this).find('td').text() + "";
+//		}
+		
 		if ($(this).is(row)) {
+			console.log(row[0]);
+			classVals = row[0].getElementsByClassName("dddefault");
+			console.log(classVals);
 			profurl = $(this).find('td[data-th="Unique"] a').prop('href');
 			registerlink = $(this).find('td[data-th="Add"] a').prop('href');
 			//	console.log(registerlink);
-			uniquenum = $(this).find('td[data-th="Unique"]').text();
-			status = $(this).find('td[data-th="Status"]').text();
-			profname = $(this).find('td[data-th="Instructor"]').text().split(', ')[0];
-			profinit = $(this).find('td[data-th="Instructor"]').text().split(', ')[1];
-			if (profname.indexOf(" ") == 0) {
-				profname = profname.substring(1);
-			}
-			var numlines = $(this).find('td[data-th="Days"]>span').length;
-			datetimearr = [];
-			var lines = [];
-			for (var i = 0; i < numlines; i++) {
-				var date = $(this).find('td[data-th="Days"]>span:eq(' + i + ')').text();
-				var time = $(this).find('td[data-th="Hour"]>span:eq(' + i + ')').text();
-				var place = $(this).find('td[data-th="Room"]>span:eq(' + i + ')').text();
-				lines.push($(`<h2 class="dateTimePlace">${makeLine(date, time, place)}</th>`));
-			}
-			$("#topbuttons").before(lines);
+			uniquenum = classVals[1].textContent;
+			status = classVals[0].textContent;
+			console.log(uniquenum);
+			console.log(status);
+			profname = classVals[13].textContent;
+			profname = profname.trim();
+			profname = profname.replace("(P)", "");
+			profname = profname.trim();
+			rmpLink = `https://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Texas+A%26M+University+at+College+Station&schoolID=1003&query=${profname};facetSearch=true`;
+			var strArray = profname.split(" ");
+			console.log(strArray);
+			profinit = strArray[strArray.length-1] + " " + strArray[0].substr(0,1);
+			course_nbr = classVals[3].textContent;
+			department = classVals[2].textContent;
+			console.log(department);
+			coursename = classVals[7].textContent;
+			coursename = coursename.trim();
+			coursename = coursename.replace("(Restrictions/Details)", "");
+			coursename = coursename.replace("(Syllabus)", "");
+			coursename = coursename.trim();
+			console.log(coursename);
+//			profname = $(this).find('td[data-th="Instructor"]').text().split(', ')[0];
+//			profinit = $(this).find('td[data-th="Instructor"]').text().split(', ')[1];
+//			if (profname.indexOf(" ") == 0) {
+//				profname = profname.substring(1);
+//			}
+
+//			var numlines = $(this).find('td[data-th="Days"]>span').length;
+//			datetimearr = [];
+//			var lines = [];
+//			for (var i = 0; i < numlines; i++) {
+//				var date = $(this).find('td[data-th="Days"]>span:eq(' + i + ')').text();
+//				var time = $(this).find('td[data-th="Hour"]>span:eq(' + i + ')').text();
+//				var place = $(this).find('td[data-th="Room"]>span:eq(' + i + ')').text();
+//				lines.push($(`<h2 class="dateTimePlace">${makeLine(date, time, place)}</th>`));
+//			}
+//			$("#topbuttons").before(lines);
 			return false;
 		}
 	});
@@ -381,10 +434,10 @@ function getCourseInfo(row) {
 		profurl = document.URL;
 		//	console.log(profurl);
 	}
-	getDescription();
-	department = coursename.substring(0, coursename.search(/\d/) - 2);
-	course_nbr = coursename.substring(coursename.search(/\d/), coursename.indexOf(" ", coursename.search(/\d/)));
-	textbookLink = `https://www.universitycoop.com/adoption-search-results?sn=${semesterCode}__${department}__${course_nbr}__${uniquenum}`
+//	getDescription();
+//	department = coursename.substring(0, coursename.search(/\d/) - 2);
+	
+//	textbookLink = `https://www.universitycoop.com/adoption-search-results?sn=${semesterCode}__${department}__${course_nbr}__${uniquenum}`;
 }
 
 /* Make the day-time-arr and make the text for the date-time-line*/
@@ -441,18 +494,21 @@ function convertTime(time) {
 function getDistribution(sem) {
 	var query;
 	if (!sem) {
+		console.log("aggregate!");
 		query = "select * from agg";
 	} else {
 		query = "select * from grades";
 	}
 	query += " where dept like '%" + department + "%'";
-	query += " and prof like '%" + profname.replace(/'/g, "") + "%'";
+	query += " and prof like '%" + profinit + "%'";
 	query += " and course_nbr like '%" + course_nbr + "%'";
 	if (sem) {
 		query += "and sem like '%" + sem + "%'";
 	}
-	query += "order by a1+a2+a3+b1+b2+b3+c1+c2+c3+d1+d2+d3+f desc";
+	query += "order by a+b+c+d+f desc";
+	console.log("the query is: " + query);
 	var res = grades.exec(query)[0];
+	console.log(res);
 	var output = "";
 	if (!sem) {
 		openDialog(department, coursename, "aggregate", profname, res);
@@ -473,16 +529,17 @@ function openDialog(dep, cls, sem, professor, res) {
 	//initial text on the "save course button"
 
 
-	chrome.runtime.sendMessage({
-		command: "alreadyContains",
-		unique: uniquenum
-	}, function (response) {
-		if (response.alreadyContains) {
-			$("#saveCourse").text("Remove Course -");
-		} else {
-			$("#saveCourse").text("Add Course +");
-		}
-	});
+//	chrome.runtime.sendMessage({
+//		command: "alreadyContains",
+//		unique: uniquenum
+//	}, function (response) {
+//		if (response.alreadyContains) {
+//			$("#saveCourse").text("Remove Course -");
+//		} else {
+//			$("#saveCourse").text("Add Course +");
+//		}
+//	});
+	
 	//set if no grade distribution
 	var data;
 	$("#semesters").empty();
@@ -490,38 +547,39 @@ function openDialog(dep, cls, sem, professor, res) {
 		data = [];
 		$("#semesters").append("<option>No Data</option>")
 	} else {
-		var semesters = res.values[0][18].split(",");
-		semesters.sort(function (a, b) {
-			var as = a.split(' ')[0];
-			var ay = parseInt(a.split(' ')[1]);
-			var bs = b.split(' ')[0];
-			var by = parseInt(b.split(' ')[1]);
-			if (ay < by) {
-				return -1;
-			}
-			if (ay > by) {
-				return 1;
-			}
-			var seas = {
-				"Spring": 0,
-				"Fall": 1,
-				"Summer": 2,
-				"Winter": 3
-			}
-			if (seas[as] < seas[bs]) {
-				return -1;
-			}
-			if (seas[as] > seas[bs]) {
-				return 1;
-			}
-			return 0;
-		});
-		semesters.reverse().unshift('Aggregate');
-		var sems = [];
-		for (var i = 0; i < semesters.length; i++) {
-			sems.push($(`<option value="${semesters[i]}">${semesters[i]}</option>`));
-		}
-		$("#semesters").append(sems);
+		$("#semesters").append("Aggregate")
+//		var semesters = res.values[0][18].split(",");
+//		semesters.sort(function (a, b) {
+//			var as = a.split(' ')[0];
+//			var ay = parseInt(a.split(' ')[1]);
+//			var bs = b.split(' ')[0];
+//			var by = parseInt(b.split(' ')[1]);
+//			if (ay < by) {
+//				return -1;
+//			}
+//			if (ay > by) {
+//				return 1;
+//			}
+//			var seas = {
+//				"Spring": 0,
+//				"Fall": 1,
+//				"Summer": 2,
+//				"Winter": 3
+//			}
+//			if (seas[as] < seas[bs]) {
+//				return -1;
+//			}
+//			if (seas[as] > seas[bs]) {
+//				return 1;
+//			}
+//			return 0;
+//		});
+//		semesters.reverse().unshift('Aggregate');
+//		var sems = [];
+//		for (var i = 0; i < semesters.length; i++) {
+//			sems.push($(`<option value="${semesters[i]}">${semesters[i]}</option>`));
+//		}
+//		$("#semesters").append(sems);
 		data = res.values[0];
 	}
 	var modal = document.getElementById('myModal');
@@ -589,16 +647,9 @@ function setChart(data) {
 			},
 			categories: [
 				'A',
-				'A-',
-				'B+',
 				'B',
-				'B-',
-				'C+',
 				'C',
-				'C-',
-				'D+',
 				'D',
-				'D-',
 				'F'
 			],
 			crosshair: true
@@ -636,40 +687,19 @@ function setChart(data) {
 		series: [{
 			name: 'Grades',
 			data: [{
-				y: data[6],
+				y: data[4],
 				color: '#4CAF50'
 			}, {
-				y: data[7],
-				color: '#8BC34A'
-			}, {
-				y: data[8],
+				y: data[5],
 				color: '#CDDC39'
 			}, {
-				y: data[9],
-				color: '#FFEB3B'
-			}, {
-				y: data[10],
+				y: data[6],
 				color: '#FFC107'
 			}, {
-				y: data[11],
-				color: '#FFA000'
-			}, {
-				y: data[12],
+				y: data[7],
 				color: '#F57C00'
 			}, {
-				y: data[13],
-				color: '#FF5722'
-			}, {
-				y: data[14],
-				color: '#FF5252'
-			}, {
-				y: data[15],
-				color: '#E64A19'
-			}, {
-				y: data[16],
-				color: '#F44336'
-			}, {
-				y: data[17],
+				y: data[8],
 				color: '#D32F2F'
 			}]
 		}]
@@ -694,17 +724,17 @@ function setChart(data) {
 
 /*Format the title*/
 function prettifyTitle() {
-	val = department.length + course_nbr.length + 3;
-	output = coursename.substring(val).replace(/\b\w*/g, function (txt) {
+	output = coursename.substring(0).replace(/\b\w*/g, function (txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 	});
 	return output + " (" + department + " " + course_nbr + ")";
 }
+
 /* Format the Professor Name */
 function prettifyName() {
 	var fixedprofinit = "";
 	if (profinit) {
-		fixedprofinit = profinit + ". ";
+		fixedprofinit = "";
 	}
 	return fixedprofinit + profname.replace(/\w\S*/g, function (txt) {
 		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -716,67 +746,68 @@ function getDescription() {
 	// console.log(window.location.href);
 	// console.log(profurl);
 	console.log('hello');
-	chrome.runtime.sendMessage({
-		method: "GET",
-		action: "xhttp",
-		url: profurl,
-		data: ""
-	}, function (response) {
-		if (response) {
+//	chrome.runtime.sendMessage({
+//		method: "GET",
+//		action: "xhttp",
+//		url: profurl,
+//		data: ""
+//	}, function (response) {
+//		if (response) {
 			// console.log(response);
-			var output = "";
-			var object = $('<div/>').html(response).contents();
-			object.find('#details > p').each(function () {
-				var sentence = $(this).text();
-				if (sentence.indexOf("Prerequisite") == 0) {
-					sentence = "<li style='font-weight: bold;' class='descriptionli'>" + sentence + "</li>";
-				} else if (sentence.indexOf("May be") >= 0) {
-					sentence = "<li style='font-style: italic;' class='descriptionli'>" + sentence + "</li>";
-				} else if (sentence.indexOf("Restricted to") == 0) {
-					sentence = "<li style='color:red;' class='descriptionli'>" + sentence + "</li>";
-				} else {
-					sentence = "<li class='descriptionli'>" + sentence + "</li>";
-				}
-				output += sentence;
-			});
-			description = output;
-			if (!description) {
-				description = "<p style='color:red;font-style:bold'>You have been logged out. Please refresh the page and log back in using your UT EID and password.</p>"
-			}
-			$("#description").animate({
-				'opacity': 0
-			}, 200, function () {
-				$(this).html(description).animate({
-					'opacity': 1
-				}, 200);
-			});
-			var first = object.find('td[data-th="Instructor"]').text();
-			first = first.substring(first.indexOf(", "), first.indexOf(" ", first.indexOf(", ") + 2));
-			first = first.substring(2);
-			rmpLink = `http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=university+of+texas+at+austin&queryoption=HEADER&query=${first} ${profname};&facetSearch=true`;
-			if (profname == "") {
-				eCISLink = `http://utdirect.utexas.edu/ctl/ecis/results/index.WBX?s_in_action_sw=S&s_in_search_type_sw=C&s_in_max_nbr_return=10&s_in_search_course_dept=${department}&s_in_search_course_num=${course_nbr}`;
-			} else {
-				eCISLink = `http://utdirect.utexas.edu/ctl/ecis/results/index.WBX?&s_in_action_sw=S&s_in_search_type_sw=N&s_in_search_name=${profname.substring(0, 1) + profname.substring(1).toLowerCase()}%2C%20${first.substring(0, 1) + first.substring(1).toLowerCase()}`;
-			}
-		} else {
-			description = "<p style='color:red;font-style:bold'>You have been logged out. Please refresh the page and log back in using your UT EID and password.</p>"
-			$("#description").animate({
-				'opacity': 0
-			}, 200, function () {
-				$(this).html(description).animate({
-					'opacity': 1
-				}, 200);
-			});
-			rmpLink = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=1255";
-			eCISLink = "http://utdirect.utexas.edu/ctl/ecis/results/index.WBX?";
-		}
-	});
+//			var output = "";
+//			var object = $('<div/>').html(response).contents();
+//			object.find('#details > p').each(function () {
+//				var sentence = $(this).text();
+//				if (sentence.indexOf("Prerequisite") == 0) {
+//					sentence = "<li style='font-weight: bold;' class='descriptionli'>" + sentence + "</li>";
+//				} else if (sentence.indexOf("May be") >= 0) {
+//					sentence = "<li style='font-style: italic;' class='descriptionli'>" + sentence + "</li>";
+//				} else if (sentence.indexOf("Restricted to") == 0) {
+//					sentence = "<li style='color:red;' class='descriptionli'>" + sentence + "</li>";
+//				} else {
+//					sentence = "<li class='descriptionli'>" + sentence + "</li>";
+//				}
+//				output += sentence;
+//			});
+//			description = output;
+//			if (!description) {
+//				description = "<p style='color:red;font-style:bold'>You have been logged out. Please refresh the page and log back in using your UT EID and password.</p>"
+//			}
+//			$("#description").animate({
+//				'opacity': 0
+//			}, 200, function () {
+//				$(this).html(description).animate({
+//					'opacity': 1
+//				}, 200);
+//			});
+//			var first = object.find('td[data-th="Instructor"]').text();
+//			first = first.substring(first.indexOf(", "), first.indexOf(" ", first.indexOf(", ") + 2));
+//			first = first.substring(2);
+//			rmpLink = `http://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=university+of+texas+at+austin&queryoption=HEADER&query=${first} ${profname};&facetSearch=true`;
+//			if (profname == "") {
+//				eCISLink = `http://www.google.com`;
+//			} else {
+//				eCISLink = `http://www.google.com`;
+//			}
+//		} else {
+//			description = "<p style='color:red;font-style:bold'>You have been logged out. Please refresh the page and log back in using your TAMUnet ID and password.</p>"
+//			$("#description").animate({
+//				'opacity': 0
+//			}, 200, function () {
+//				$(this).html(description).animate({
+//					'opacity': 1
+//				}, 200);
+//			});
+//			rmpLink = "http://www.ratemyprofessors.com/campusRatings.jsp?sid=1255";
+//			eCISLink = "http://www.google.com";
+//		}
+//	});
 }
 /* Load the database*/
 function loadDataBase() {
+	console.log("database loaded");
 	sql = window.SQL;
-	loadBinaryFile('grades.db', function (data) {
+	loadBinaryFile('tamu_grades.db', function (data) {
 		var sqldb = new SQL.Database(data);
 		grades = sqldb;
 	});
