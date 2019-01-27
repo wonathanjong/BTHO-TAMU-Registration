@@ -1,3 +1,0 @@
-User-agent: *
-Disallow:
-SITEMAP: bthoregistration.com/sitemap.xml
