@@ -24,17 +24,27 @@ subject_list  = ["ACCT","AEGD","AERO","AERS","AFST","AGCJ","AGEC","AGLS","AGSC",
 "PLPA","POLS","POSC","PROS","PSAA","PSYC","RDNG","RELS","RENR","RPTS","RUSS","SABR","SCEN","SCMT","SCSC","SEFB","SENG","SOCI","SOMS","SOPH","SPAN","SPED","SPMT","SPSY","STAT",
 "TCMG","TCMT","TEED","TEFB","THAR","UGST","URPN","URSC","VIBS","VIST","VIZA","VLCS","VMID","VPAT","VSCS","VTMI","VTPB","VTPP","WFSC","WGST","WMHS"]
 
+course_nbr_list = []
+
 if __name__ == '__main__':
-    db = sqlite3.connect("initial.db")
+    db = sqlite3.connect("db4.db")
 
     with db:
         cur = db.cursor()
 
-        cur.execute("CREATE TABLE section_grades (sem TEXT, prof TEXT, dept TEXT, course_nbr TEXT, course_name TEXT, a INT, b INT, c INT, d INT, f INT, totalAF INT)")
+        #cur.execute("CREATE TABLE section_grades (sem TEXT, prof TEXT, dept TEXT, course_nbr TEXT, course_name TEXT, a INT, b INT, c INT, d INT, f INT, totalAF INT)")
 
-        for dept in subject_list:
-            for course_nbr_int in range(100, 1000):
-                course_nbr = str(course_nbr_int)
+        #dept = subject_list[0]
+
+        for dept in subject_list[150:160]:
+            print(subject_list.index(dept))
+            i = requests.get('http://www.aggiescheduler.com/api/search?search=' + dept + '&term=201911')
+            i_file = i.json()
+            for cn_dict_init in i_file:
+                course_nbr_list.append(cn_dict_init.get("course"))
+
+            for course_nbr in course_nbr_list:
+                #course_nbr = str(course_nbr_int)
                 j = requests.get('http://www.aggiescheduler.com/api/grades?course=' + course_nbr + '&subject=' + dept)
                 j_file = j.json()
                 if j_file:
@@ -86,5 +96,5 @@ if __name__ == '__main__':
                                             print('***************************')"""
                                         cur.execute("INSERT INTO section_grades VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (sem, prof, dept, course_nbr, course_name, a, b, c, d, f, totalAF))
 
-                                        #TODO:write to file here...
+            print("*****************************************************")
     db.close()
