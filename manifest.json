@@ -1,22 +1,24 @@
 {
   "manifest_version": 2,
 
-  "name": "UT Registration Plus",
+  "name": "BTHO TAMU Registration",
   "version": "0.2.2.2",
   "options_page": "options.html",
-  "description": "Improves the course registration process at the University of Texas at Austin!",
+  "description": "Improves the course registration process at the Texas A&M University!",
   "permissions": ["tabs",
     "declarativeContent",
     "storage",
-    "*://*.utdirect.utexas.edu/apps/registrar/course_schedule/*",
+    "*://*.tamu.edu/uPortal/*",
     "*://*.catalog.utexas.edu/ribbit/",
     "*://*.registrar.utexas.edu/schedules/*",
-    "*://*.login.utexas.edu/login/*"
+    "*://*.login.utexas.edu/login/*",
+    "*://*cas.tamu.edu/cas/login/*",
+    "*://*utdirect.utexas.edu/*"
   ],
   "content_scripts": [{
     "css": ["css/styles.css"],
     "js": ["js/moment.min.js", "js/sql-memory-growth.js", "js/highcharts.js", "js/jquery-3.3.1.min.js", "js/content.js"],
-    "matches": ["https://utdirect.utexas.edu/apps/registrar/course_schedule/*"]
+    "matches": ["https://howdy.tamu.edu/uPortal/*", "https://utdirect.utexas.edu/*"]
   }, {
     "css": ["css/styles.css"],
     "js": ["js/moment.min.js", "js/sql-memory-growth.js", "js/highcharts.js", "js/jquery-3.3.1.min.js", "js/import.js"],

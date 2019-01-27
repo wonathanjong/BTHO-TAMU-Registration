@@ -25,11 +25,11 @@ function setCourseList() {
 			var color;
 			status = courses[i].status;
 			if (status.includes("open")) {
-				color = "#4CAF50";
+				color = "#2ECC71";
 			} else if (status.includes("waitlisted")) {
-				color = "#FF9800"
+				color = "#800000"
 			} else if (status.includes("closed") || status.includes("cancelled")) {
-				color = "#FF5722";
+				color = "#ff4545";
 			}
 			var department = courses[i].coursename.substring(0, courses[i].coursename.search(/\d/) - 2);
 			var course_nbr = courses[i].coursename.substring(courses[i].coursename.search(/\d/), courses[i].coursename.indexOf(" ", courses[i].coursename.search(/\d/)));
@@ -54,7 +54,7 @@ function setCourseList() {
 									<p style='font-weight:bold;padding:10px;margin:0px 5px 0px 15px;font-size:small;background-color:#FFCDD2;'>${makeLine(i)}</p>
 									<div id='infoButtons' style='border-radius:0px;'>
 										<button class='matbut' id='listRemove'style='float:right;background:#F44336; margin:5px;'>Remove</button>
-										<button class='matbut' id='register' style='float:right;background:#4CAF50; margin:5px;'>Register</button>
+										<button class='matbut' id='register' style='float:right;background:#2ECC71; margin:5px;'>Register</button>
 										<button class='matbut' id='listMoreInfo' style='float:right;background:#2196F3; margin:5px;'>More Info</button>
 									</div>
 								</div>
@@ -67,12 +67,11 @@ function setCourseList() {
 
 
 function showEmpty() {
-	var emptyText = ["Doesn't Look Like Anything To Me.", "You Can't Fail Classes You're Not In.", "Pro-Tip: Don't Take O-Chem.",
-		"No Work Happens On PCL 5th Floor.", "Sophomore But Freshman By Credit.", "Pain is temporary, GPA is forever.",
-		"You've Yee'd Your Last Haw.", "lol everything is already waitlisted.", "At Least You're Not At A&M.",
-		`It's ${moment().format("h:mm")} and OU Still Sucks.`, 'TeXAs iS BaCK GuYZ', "'Academically Challenged'",
-		'Does McCombs teach Parseltongue?', 'Lets make Daddy Fenves proud.', 'Feel bad if you say Wampus.', 'No Cruce Enfrente Del Bus.',
-		'Midterm 1 has been Unmuted', 'Omae Wa Mou Shindeiru...', 'Bevo Bucks are the new Bitcoin'
+	var emptyText = ["Doesn't Look Like Anything To Me.", "You Can't Fail Classes You're Not In.", "Pro-Tip: Don't Gig 'em.",
+		"No Real Work Happens In Zachary.", "Sophomore But Freshman By Credit.", "Pain is temporary, GPA is forever.",
+		"You've Yee'd Your Last Haw.", "lol everything is already waitlisted.", "At Least You're Not A Tea Sip.",
+		`It's ${moment().format("h:mm")} and UT Still Sucks.`, 'TeXAs iS BaCK GuYZ', "'Academically Challenged'", 'Lets make Reveille proud.', 'GIGS.', 'Pass it back Ags.',
+		'Midterm 1 has been Unmuted', 'Omae Wa Mou Shindeiru...', 'Dine In Dollars are the new Bitcoin'
 	]
 	// console.log(emptyText.length);
 	$("#courseList").hide();
@@ -156,9 +155,9 @@ $(document).ready(function () {
 			$(this).find("#register").text("Can't Register").css("background-color", "#FF5722");
 		} else {
 			if (status.includes("waitlisted")) {
-				$(this).find("#register").text("Join Waitlist").css("background-color", "#FF9800");
+				$(this).find("#register").text("Join Waitlist").css("background-color", "#800000");
 			} else {
-				$(this).find("#register").text("Register").css("background-color", "#4CAF50");
+				$(this).find("#register").text("Register").css("background-color", "#2ECC71");
 			}
 			$(this).find("#register").click(function () {
 				chrome.tabs.query({

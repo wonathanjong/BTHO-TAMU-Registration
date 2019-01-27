@@ -1,4 +1,4 @@
-# TAMU Registration Plus
+# BTHO TAMU Registration
 [Try it for yourself on the Chrome Web Store](https://chrome.google.com/webstore/detail/hboadpjkoaieogjimneceaahlppnipaa/publish-accepted?authuser=0&hl=en-US)
 
 We've all been there. 20 tabs of Rate My Professor, TAMU Grade Distribution, and the TAMU HOWDY Course Catalog open and you still don't know what classes to take. 

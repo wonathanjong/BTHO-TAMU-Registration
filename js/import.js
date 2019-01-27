@@ -4,7 +4,7 @@ var sem;
 $(function () {
 	//template https://utdirect.utexas.edu/apps/registrar/course_schedule/20189/51475/
 	console.log(window.location.href);
-	var importbutton = "<button class='matbut' id='import' style='margin:20px 0px 20px 0px;'><span style='font-size:small'>Import into </span><b>UT Reg Plus<b></h2></button><br>";
+	var importbutton = "<button class='matbut' id='import' style='margin:20px 0px 20px 0px;'><span style='font-size:small'>Import into </span><b>BTHO Reg<b></h2></button><br>";
 	waitlist = !(window.location.href.includes('https://utdirect.utexas.edu/registration/classlist.WBX'));
 	if(waitlist){
 		sem = $('[name="s_ccyys"]').val();
@@ -31,7 +31,7 @@ $(function () {
 		}
 		$("#import").text("Courses Saved!").css("background-color", "#4CAF50");
 		setTimeout(function () {
-			$("#import").html("<span style='font-size:small'>Import into </span><b>UT Reg Plus<b></h2>").css("background-color", "#FF9800");
+			$("#import").html("<span style='font-size:small'>Import into </span><b>UT Reg Plus<b></h2>").css("background-color", "#800000");
 		}, 1000);
 	});
 

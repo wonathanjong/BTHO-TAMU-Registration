@@ -120,7 +120,7 @@ $(function () {
                 if (status.includes("closed") || status.includes("cancelled") || !status || !registerlink) {
                     $("#register").text("Can't Register").css("background-color", "#FF5722");
                 } else if (status.includes("waitlisted")) {
-                    $("#register").text("Join Waitlist").css("background-color", "#FF9800");
+                    $("#register").text("Join Waitlist").css("background-color", "#800000");
                 } else {
                     $("#register").text("Register").css("background-color", "#4CAF50");
                 }
