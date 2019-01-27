@@ -13,7 +13,7 @@ This extension tries to streamline most of the unnecessary steps and headaches o
 
 - Gives you the ability to "Save Courses" and view them in the extension popup. This lets you see any schedule conflicts, and makes copy-pasting the unique code much easier when you're actually registering. 
 
-- Highlights and crosses-out what courses on the UT Course Catalog would conflict with your currently saved courses, making selecting courses that fit with your schedule so much easier. 
+- Highlights and crosses-out what courses on the TAMU Course Catalog would conflict with your currently saved courses, making selecting courses that fit with your schedule so much easier. 
 
 - Display's a weekly schedule based on your saved courses
 
