@@ -27,7 +27,7 @@
     "matches": ["https://utdirect.utexas.edu/registrar/waitlist/wl_see_my_waitlists.WBX", "https://utdirect.utexas.edu/registration/classlist.WBX*"]
   }],
   "web_accessible_resources": [
-    "grades.db", "images/disticon.png,", "tamu_grades.db"
+    "grades.db", "images/disticon.png", "tamu_grades.db", "images/reveille.png", "images/rmp.png", "icons/icon128.png"
   ],
   "background": {
     "scripts": ["js/background.js", "js/moment.min.js", "js/jquery-3.3.1.min.js"],

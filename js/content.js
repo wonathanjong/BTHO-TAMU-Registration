@@ -58,14 +58,32 @@ loadDataBase();
 //setInterval(addStuff, 3 * 1000);
 
 var stussy = document.getElementsByClassName("captiontext");
-console.log(stussy);
-console.log(stussy.innerHTML);
 
 if (stussy.length > 0) {
-	console.log(stussy[0]);
-	console.log("it gone work");
-	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
-	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
+
+//	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
+//	$("table tr th:last-child").after('<th class="ddheader" scope="col">BTHO</th>');
+	
+//	$("table").find("tr")getElementsByClassName("th").each(function () {
+//		
+//		console.log($(this));
+//		
+//		if ($(this).find('td')) {
+//			//if a course row, then add the extension button
+//			$(this).append('<td data-th="BTHO"><a id="distButton" >(Hacks)</a></td>');
+//			$(this).append('<td data-th="BTHO"><a id="rmpButton" >(RMP)</a></td>');
+//		}
+//	});
+	
+	var lastChild = $("table tr th:last-child");
+	console.log(lastChild);
+	lastChild[1].insertAdjacentHTML("afterend", '<th class="ddheader" scope="col">Ratings</th>');
+	lastChild[1].insertAdjacentHTML("afterend", '<th class="ddheader" scope="col">Grades</th>');
+	
+//	after('<th class="ddheader" scope="col">BTHO</th>');
+	
+	$("tr:last" )
+	
 	$("table").after(`<div style="text-align:center">
 							  <div class="loader" id='loader' ></div>
 							  <br>
@@ -112,11 +130,17 @@ if (stussy.length > 0) {
 	$("#myModal").prepend("<div id='snackbar'>defaultmessage..</div>");
 	//go through all the rows in the list
 	$('table').find('tr').each(function () {
-		if (($(this).find('td').hasClass("dddefault")) && $(this).has('th').length == 0) {
+		
+		console.log($(this));
+		
+		
+		if (($(this).find('td').hasClass("dddefault")) && $(this).has('th').length == 0q) {
 			//if a course row, then add the extension button
-			$(this).append('<td data-th="BTHO"><a id="distButton" >(Hacks)</a></td>');
-			$(this).append('<td data-th="BTHO"><a id="distButton" >(RMP)</a></td>');
-//			$(this).append(`<td data-th="Plus"><input type="image" href="#null" onclick="break;" class="distButton" id="distButton" style="vertical-align: bottom; display:block;" width="20" height="20" src='${chrome.extension.getURL('images/disticon.png')}'/></td>`);
+//			$(this).append('<td data-th="BTHO"><a id="distButton" style="color: blue;">(Grades)</a></td>');
+//			$(this).append('<td data-th="BTHO"><a id="rmpButton" style="color: blue;">(RMP)</a></td>');
+			$(this).append(`<td data-th="Plus"><image id="distButton" style="vertical-align: bottom; display:block;" width="80" height="60" src='${chrome.extension.getURL('icons/icon128.png')}'/></td>`);
+			$(this).append(`<td data-th="Plus"><image id="rmpButton" style="vertical-align: bottom; display:block;" width="40" height="40" src='${chrome.extension.getURL('images/rmp.png')}'/></td>`);
+			
 			// if ($(this).find('td[data-th="Status"]').text().includes('waitlisted')) {
 			// 	$(this).find('td').each(function () {
 			// 		$(this).css('background-color', '#E0E0E0');
@@ -131,6 +155,13 @@ if (stussy.length > 0) {
 //update the conflicts
 //update(0);
 /*Handle the button clicks*/
+
+$("tbody").on('click', '#rmpButton', function () {
+	var row = $(this).closest('tr');
+	getCourseInfo(row);
+	var win = window.open(rmpLink, '_blank');
+  	win.focus();
+});
 
 $("tbody").on('click', '#distButton', function () {
 	console.log("clicked");
@@ -390,8 +421,8 @@ function getCourseInfo(row) {
 			profname = profname.trim();
 			profname = profname.replace("(P)", "");
 			profname = profname.trim();
-			rmpLink = `https://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolName=Texas+A%26M+University+at+College+Station&schoolID=1003&query=${profname};facetSearch=true`;
 			var strArray = profname.split(" ");
+			rmpLink = `https://www.ratemyprofessors.com/search.jsp?queryoption=HEADER&queryBy=teacherName&schoolID=1003&query=${strArray[0] + " "+ strArray[strArray.length - 1]};&facetSearch=true`;
 			console.log(strArray);
 			profinit = strArray[strArray.length-1] + " " + strArray[0].substr(0,1);
 			course_nbr = classVals[3].textContent;
@@ -547,7 +578,7 @@ function openDialog(dep, cls, sem, professor, res) {
 		data = [];
 		$("#semesters").append("<option>No Data</option>")
 	} else {
-		$("#semesters").append("Aggregate")
+		$("#semesters").append("<option>Aggregate</option>")
 //		var semesters = res.values[0][18].split(",");
 //		semesters.sort(function (a, b) {
 //			var as = a.split(' ')[0];
