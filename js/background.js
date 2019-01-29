@@ -84,13 +84,6 @@ chrome.runtime.onInstalled.addListener(function (details) {
 	}
 });
 
-chrome.alarms.create("6secs", {delayInMinutes: 0.1, periodInMinutes: 0.1});
-
-chrome.alarms.onAlarm.addListener(function(alarm) {
-  if (alarm.name === "6secs") {
-    doStuff();
-  }
-});
 
 function updateBadge(first) {
 	chrome.storage.sync.get('savedCourses', function (data) {

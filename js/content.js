@@ -134,7 +134,7 @@ if (stussy.length > 0) {
 		console.log($(this));
 		
 		
-		if (($(this).find('td').hasClass("dddefault")) && $(this).has('th').length == 0q) {
+		if (($(this).find('td').hasClass("dddefault")) && $(this).has('th').length == 0) {
 			//if a course row, then add the extension button
 //			$(this).append('<td data-th="BTHO"><a id="distButton" style="color: blue;">(Grades)</a></td>');
 //			$(this).append('<td data-th="BTHO"><a id="rmpButton" style="color: blue;">(RMP)</a></td>');
@@ -410,7 +410,7 @@ function getCourseInfo(row) {
 			console.log(row[0]);
 			classVals = row[0].getElementsByClassName("dddefault");
 			console.log(classVals);
-			profurl = $(this).find('td[data-th="Unique"] a').prop('href');
+//			profurl = classVals[2].find('td a').prop('href');;
 			registerlink = $(this).find('td[data-th="Add"] a').prop('href');
 			//	console.log(registerlink);
 			uniquenum = classVals[1].textContent;
